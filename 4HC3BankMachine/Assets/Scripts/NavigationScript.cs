@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class NavigationScript : MonoBehaviour
 {
-
     public Canvas startMenu;
     public Canvas pinScreen;
     public Canvas mainScreen;
@@ -22,6 +21,11 @@ public class NavigationScript : MonoBehaviour
     public Canvas settingsScreen;
     public Canvas signoutscreen;
     public Canvas removeCardScreen;
+    public Canvas selectRecipent;
+    public Canvas withdrawBillScreen;
+    public Canvas transferSelectScreen;
+    public Canvas eTransferScreen;
+    public Canvas PINSettingScreen;
 
     //start menu
     public Button startMenuCardInsert;
@@ -55,6 +59,12 @@ public class NavigationScript : MonoBehaviour
 
     //withdraw screen
     public Button withdrawBack;
+    public Button withdraw20;
+    public Button withdraw40;
+    public Button withdraw60;
+    public Button withdraw80;
+    public Button withdraw100;
+    public Button withdrawCustom;
 
     //settings screen
     public Button settingsBack;
@@ -76,7 +86,6 @@ public class NavigationScript : MonoBehaviour
 
     //account settings
 
-
     // Use this for initialization
     void Start()
     {
@@ -97,6 +106,11 @@ public class NavigationScript : MonoBehaviour
         settingsScreen.enabled = false;
         signoutscreen.enabled = false;
         removeCardScreen.enabled = false;
+        selectRecipent.enabled = false;
+        withdrawBillScreen.enabled = false;
+        transferSelectScreen.enabled = false;
+        eTransferScreen.enabled = false;
+        PINSettingScreen.enabled = false;
 
         //start menu
         startMenuCardInsert.onClick.AddListener(taskInsert);
@@ -121,6 +135,11 @@ public class NavigationScript : MonoBehaviour
 
         //withdraw menu
         withdrawBack.onClick.AddListener(taskWithdrawBack);
+        withdraw20.onClick.AddListener(taskWithdrawBill);
+        withdraw40.onClick.AddListener(taskWithdrawBill);
+        withdraw60.onClick.AddListener(taskWithdrawBill);
+        withdraw80.onClick.AddListener(taskWithdrawBill);
+        withdraw100.onClick.AddListener(taskWithdrawBill);
 
         //settings menu
         settingsBack.onClick.AddListener(taskSettingsBack);
@@ -237,7 +256,19 @@ public class NavigationScript : MonoBehaviour
     void taskWithdrawBack()
     {
         withdrawScreen.enabled = false;
-        mainScreen.enabled = true;
+        accountSelection.enabled = true;
+    }
+
+    void taskWithdrawBill()
+    {
+        withdrawScreen.enabled = false;
+        withdrawBillScreen.enabled = true;
+    }
+
+    void taskWithdrawCustom()
+    {
+        withdrawScreen.enabled = false;
+        transferScreen.enabled = true;
     }
 
     //accountSelection
