@@ -43,7 +43,7 @@ public class NavigationScript : MonoBehaviour
     public Button checkBalance;
     public Button signout;
     // 0 = withdraw, 1 = deposit, 2 = check balance, 3 = etransfer
-    private int accountSelectionMode;
+    private int functionMode = -1;
 
     //deposit screen
     public Button depositBack;
@@ -66,14 +66,16 @@ public class NavigationScript : MonoBehaviour
     public Button withdraw100;
     public Button withdrawCustom;
 
+    //withdraw Bills
+    public Button withdrawBillConfirm;
+    public Button withdrawBillBack;
+
     //settings screen
     public Button settingsBack;
 
     //transfer screen
     public Button transferBack;
     public Button transferCheck;
-    //if true, deposit, otherwise transfer
-    private bool depositOrTransfer;
 
     //transfer verification screen
     public Button transferYes;
@@ -83,6 +85,30 @@ public class NavigationScript : MonoBehaviour
     public Button receiptPrint;
     public Button receiptEmail;
     public Button receiptMainMenu;
+
+    //transfer select screen
+    public Button transferSelectAccount;
+    public Button transferSelectETransfer;
+    public Button transferSelectPayBills;
+    public Button transferSelectBack;
+    //if true, transfer between accounts, else pay bills
+    public bool accountOrBills;
+
+    //transfer money screen;
+    public Button transferMoneyBack;
+    public Button transferMoneyCheck;
+
+    //TODO
+    ////eTransferScreen
+    //public Button eTransferSend;
+    //public Button eTransferRequest;
+    //public Button eTransferBack;
+    ////if true, send, else request
+    //public bool sendOrRequest;
+
+    ////selectrecipient screen
+    //public Button selectrecipientBack;
+
 
     //account settings
 
@@ -140,6 +166,11 @@ public class NavigationScript : MonoBehaviour
         withdraw60.onClick.AddListener(taskWithdrawBill);
         withdraw80.onClick.AddListener(taskWithdrawBill);
         withdraw100.onClick.AddListener(taskWithdrawBill);
+        withdrawCustom.onClick.AddListener(taskWithdrawCustom);
+
+        //withdrawBill
+        withdrawBillConfirm.onClick.AddListener(taskWithdrawBillConfirm);
+        withdrawBillBack.onClick.AddListener(taskWithdrawBillBack);
 
         //settings menu
         settingsBack.onClick.AddListener(taskSettingsBack);
@@ -163,6 +194,17 @@ public class NavigationScript : MonoBehaviour
         receiptPrint.onClick.AddListener(taskReceiptPrint);
         receiptEmail.onClick.AddListener(taskReceiptPrint);
         receiptMainMenu.onClick.AddListener(taskReceiptMainMenu);
+
+        //transfer select screen
+        transferSelectAccount.onClick.AddListener(taskTransferSelectAccount);
+        transferSelectETransfer.onClick.AddListener(taskTransferSelectETransfer);
+        transferSelectPayBills.onClick.AddListener(taskTransferSelectPayBills);
+        transferSelectBack.onClick.AddListener(taskTransferSelectBack);
+
+        //transfer money screen
+        transferMoneyBack.onClick.AddListener(taskTransferMoneyBack);
+        transferMoneyCheck.onClick.AddListener(taskTransferMoneyCheck);
+
     }
 
     //start menu
@@ -196,14 +238,14 @@ public class NavigationScript : MonoBehaviour
     {
         mainScreen.enabled = false;
         depositScreen.enabled = true;
-        accountSelectionMode = 1;
+        functionMode = 1;
     }
 
     void taskMainWithdraw()
     {
         mainScreen.enabled = false;
         accountSelection.enabled = true;
-        accountSelectionMode = 0;
+        functionMode = 0;
     }
 
     void taskMainSettings()
@@ -216,13 +258,14 @@ public class NavigationScript : MonoBehaviour
     {
         mainScreen.enabled = false;
         transferScreen.enabled = true;
+        functionMode = 3;
     }
 
     void taskMainCheckBalance()
     {
         mainScreen.enabled = false;
         accountSelection.enabled = true;
-        accountSelectionMode = 2;
+        functionMode = 2;
     }
 
     void taskMainSignout()
@@ -271,11 +314,24 @@ public class NavigationScript : MonoBehaviour
         transferScreen.enabled = true;
     }
 
+    //withdrawBill Screen
+    void taskWithdrawBillBack()
+    {
+        withdrawBillScreen.enabled = false;
+        withdrawScreen.enabled = true;
+    }
+
+    void taskWithdrawBillConfirm()
+    {
+        withdrawBillScreen.enabled = false;
+        transferVerificationScreen.enabled = true;
+    }
+
     //accountSelection
     void taskAccountBack()
     {
         accountSelection.enabled = false;
-        if (accountSelectionMode == 1)
+        if (functionMode == 1)
         {
             depositScreen.enabled = true;
         }
@@ -287,7 +343,7 @@ public class NavigationScript : MonoBehaviour
 
     void taskAccountBasic()
     {
-        switch (accountSelectionMode)
+        switch (functionMode)
         {
             //withdrawl
             case 0:
@@ -317,7 +373,18 @@ public class NavigationScript : MonoBehaviour
     void taskTransferBack()
     {
         transferScreen.enabled = false;
-        accountSelection.enabled = true;
+        if (functionMode == 0)
+        {
+            withdrawScreen.enabled = true;
+        }
+        else if(functionMode == 3)
+        {
+            transferMoneyScreen.enabled = true;
+        }
+        else
+        {
+            accountSelection.enabled = true;
+        }
     }
     //if checkmark is clicked
     void taskTransferCheck()
@@ -339,7 +406,7 @@ public class NavigationScript : MonoBehaviour
     //if user selects no during verification
     void taskTransferNo()
     {
-        switch (accountSelectionMode)
+        switch (functionMode)
         {
             //withdrawl
             case 0:
@@ -395,6 +462,54 @@ public class NavigationScript : MonoBehaviour
         settingsScreen.enabled = false;
         mainScreen.enabled = true;
     }
+
+    //transferSelect menu
+    //select between your accounts
+    void taskTransferSelectAccount()
+    {
+        transferSelectScreen.enabled = false;
+        transferMoneyScreen.enabled = true;
+        accountOrBills = true;
+    }
+
+    //select eTransfer
+    void taskTransferSelectETransfer()
+    {
+        transferSelectScreen.enabled = false;
+        eTransferScreen.enabled = true;
+    }
+
+    //select pay bills
+    void taskTransferSelectPayBills()
+    {
+        transferSelectScreen.enabled = false;
+        transferMoneyScreen.enabled = true;
+        accountOrBills = false;
+    }
+
+    void taskTransferSelectBack()
+    {
+        transferSelectScreen.enabled = false;
+        mainScreen.enabled = true;
+    }
+
+    //transfer money menu
+
+    //transfer money menu back
+    void taskTransferMoneyBack()
+    {
+        transferMoneyScreen.enabled = false;
+        transferSelectScreen.enabled = true;
+    }
+
+    //transfer money menu confirm
+    void taskTransferMoneyCheck()
+    {
+        transferMoneyScreen.enabled = false;
+        transferScreen.enabled = true;
+    }
+
+
 
 
 }

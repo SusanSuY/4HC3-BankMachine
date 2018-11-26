@@ -6758,12 +6758,14 @@ MonoBehaviour:
   accountBasic: {fileID: 272301954}
   accountBack: {fileID: 136250775}
   withdrawBack: {fileID: 1781735682}
-  withdraw20: {fileID: 0}
-  withdraw40: {fileID: 0}
-  withdraw60: {fileID: 0}
-  withdraw80: {fileID: 0}
-  withdraw100: {fileID: 0}
+  withdraw20: {fileID: 278566602}
+  withdraw40: {fileID: 1580841594}
+  withdraw60: {fileID: 2010010531}
+  withdraw80: {fileID: 1148773878}
+  withdraw100: {fileID: 1870257846}
   withdrawCustom: {fileID: 239020147}
+  withdrawBillConfirm: {fileID: 1721143452}
+  withdrawBillBack: {fileID: 2130037734}
   settingsBack: {fileID: 514574272}
   transferBack: {fileID: 1400704639}
   transferCheck: {fileID: 1056966544}
@@ -6772,6 +6774,13 @@ MonoBehaviour:
   receiptPrint: {fileID: 1764790745}
   receiptEmail: {fileID: 523864156}
   receiptMainMenu: {fileID: 1806543679}
+  transferSelectAccount: {fileID: 25761558}
+  transferSelectETransfer: {fileID: 120864431}
+  transferSelectPayBills: {fileID: 1266836791}
+  transferSelectBack: {fileID: 810675361}
+  accountOrBills: 0
+  transferMoneyBack: {fileID: 591085366}
+  transferMoneyCheck: {fileID: 1000975290}
 --- !u!1 &307396346
 GameObject:
   m_ObjectHideFlags: 0
