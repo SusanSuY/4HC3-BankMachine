@@ -553,7 +553,7 @@ public class NavigationScript : MonoBehaviour
     void taskCheckBalanceBack()
     {
         checkBalanceScreen.enabled = false;
-        mainScreen.enabled = true;
+        accountSelection.enabled = true;
     }
 
     //etransfer screen
