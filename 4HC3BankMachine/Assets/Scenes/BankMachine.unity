@@ -2728,7 +2728,7 @@ GameObject:
   - component: {fileID: 99015004}
   - component: {fileID: 99015003}
   m_Layer: 5
-  m_Name: Cash
+  m_Name: sendMoney
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2915,7 +2915,7 @@ RectTransform:
   m_Children:
   - {fileID: 1938765258}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6136,7 +6136,7 @@ RectTransform:
   m_Children:
   - {fileID: 1185393089}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6488,7 +6488,7 @@ RectTransform:
   m_Children:
   - {fileID: 632994780}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6774,7 +6774,6 @@ MonoBehaviour:
   settingsScreen: {fileID: 2052746387}
   signoutscreen: {fileID: 707269049}
   removeCardScreen: {fileID: 511359703}
-  selectRecipent: {fileID: 948714413}
   withdrawBillScreen: {fileID: 1401228939}
   transferSelectScreen: {fileID: 99121178}
   eTransferScreen: {fileID: 563873884}
@@ -6807,7 +6806,6 @@ MonoBehaviour:
   withdrawCustom: {fileID: 239020147}
   withdrawBillConfirm: {fileID: 1721143452}
   withdrawBillBack: {fileID: 2130037734}
-  settingsBack: {fileID: 514574272}
   transferBack: {fileID: 1400704639}
   transferCheck: {fileID: 1056966544}
   transferYes: {fileID: 1546153364}
@@ -6823,6 +6821,18 @@ MonoBehaviour:
   transferMoneyBack: {fileID: 1845396030}
   transferMoneyCheck: {fileID: 1000975290}
   checkBalanceBack: {fileID: 613919858}
+  eTransferSend: {fileID: 99015003}
+  eTransferRequest: {fileID: 1346869944}
+  eTransferBack: {fileID: 42257467}
+  sendOrRequest: 0
+  selectRecipientBack: {fileID: 1322114738}
+  recipient1: {fileID: 641687894}
+  recipient2: {fileID: 307584201}
+  recipient3: {fileID: 1188660230}
+  settingsBack: {fileID: 514574272}
+  settingsChangePin: {fileID: 1244424809}
+  pinSettingsBack: {fileID: 919617178}
+  pinSettingsCheck: {fileID: 500107575}
 --- !u!114 &304962873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6902,6 +6912,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 919617177}
   - {fileID: 1830444422}
   - {fileID: 1418221251}
   - {fileID: 842637782}
@@ -6970,7 +6981,7 @@ GameObject:
   - component: {fileID: 307584202}
   - component: {fileID: 307584201}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: rec2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10448,7 +10459,7 @@ RectTransform:
   m_Children:
   - {fileID: 879656955}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12157,7 +12168,7 @@ RectTransform:
   m_Children:
   - {fileID: 991057113}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -13386,7 +13397,7 @@ GameObject:
   - component: {fileID: 641687895}
   - component: {fileID: 641687894}
   m_Layer: 5
-  m_Name: Button
+  m_Name: rec1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15002,7 +15013,7 @@ RectTransform:
   m_Children:
   - {fileID: 436866642}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -17462,7 +17473,7 @@ RectTransform:
   m_Children:
   - {fileID: 80211659}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17686,7 +17697,7 @@ RectTransform:
   m_Children:
   - {fileID: 630146666}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -18943,7 +18954,7 @@ RectTransform:
   m_Children:
   - {fileID: 1324380788}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19037,7 +19048,7 @@ GameObject:
   - component: {fileID: 919617179}
   - component: {fileID: 919617178}
   m_Layer: 5
-  m_Name: Button
+  m_Name: pinSettingsBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19049,17 +19060,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 919617176}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1602544978}
-  m_Father: {fileID: 1631536553}
-  m_RootOrder: 4
+  m_Father: {fileID: 307396347}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -506.3, y: 231.8}
+  m_AnchoredPosition: {x: -758.3, y: 256.8}
   m_SizeDelta: {x: 89.5, y: 37.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &919617178
@@ -23974,7 +23985,7 @@ RectTransform:
   m_Children:
   - {fileID: 1142742483}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -24254,7 +24265,7 @@ GameObject:
   - component: {fileID: 1188660231}
   - component: {fileID: 1188660230}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: rec3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25194,7 +25205,7 @@ RectTransform:
   m_Children:
   - {fileID: 1189348967}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -25529,7 +25540,7 @@ GameObject:
   - component: {fileID: 1244424810}
   - component: {fileID: 1244424809}
   m_Layer: 5
-  m_Name: CardInsert
+  m_Name: ChangePin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27166,7 +27177,7 @@ GameObject:
   - component: {fileID: 1322114739}
   - component: {fileID: 1322114738}
   m_Layer: 5
-  m_Name: Button
+  m_Name: recipientBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27428,7 +27439,7 @@ GameObject:
   - component: {fileID: 1346869945}
   - component: {fileID: 1346869944}
   m_Layer: 5
-  m_Name: Cheque
+  m_Name: RequestMoney
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28688,7 +28699,7 @@ RectTransform:
   m_Children:
   - {fileID: 892593741}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -28954,7 +28965,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 307396347}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -29484,7 +29495,7 @@ RectTransform:
   m_Children:
   - {fileID: 1276868069}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -33396,7 +33407,7 @@ RectTransform:
   m_Children:
   - {fileID: 400357376}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -33974,7 +33985,6 @@ RectTransform:
   - {fileID: 747297011}
   - {fileID: 1415319878}
   - {fileID: 1794250180}
-  - {fileID: 919617177}
   m_Father: {fileID: 1216957101}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -35006,7 +35016,7 @@ GameObject:
   - component: {fileID: 1673245807}
   - component: {fileID: 1673245806}
   m_Layer: 5
-  m_Name: TextMeshPro Text
+  m_Name: ChangePin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35180,7 +35190,7 @@ RectTransform:
   m_Children:
   - {fileID: 18099560}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -37659,7 +37669,7 @@ RectTransform:
   m_Children:
   - {fileID: 808689499}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -37952,7 +37962,7 @@ RectTransform:
   m_Children:
   - {fileID: 1443911732}
   m_Father: {fileID: 307396347}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -42742,7 +42752,7 @@ RectTransform:
   m_Children:
   - {fileID: 1569287245}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

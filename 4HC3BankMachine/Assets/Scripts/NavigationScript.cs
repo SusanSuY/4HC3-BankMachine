@@ -21,7 +21,6 @@ public class NavigationScript : MonoBehaviour
     public Canvas settingsScreen;
     public Canvas signoutscreen;
     public Canvas removeCardScreen;
-    public Canvas selectRecipent;
     public Canvas withdrawBillScreen;
     public Canvas transferSelectScreen;
     public Canvas eTransferScreen;
@@ -70,9 +69,6 @@ public class NavigationScript : MonoBehaviour
     public Button withdrawBillConfirm;
     public Button withdrawBillBack;
 
-    //settings screen
-    public Button settingsBack;
-
     //transfer screen
     public Button transferBack;
     public Button transferCheck;
@@ -101,19 +97,27 @@ public class NavigationScript : MonoBehaviour
     // check balance screen;
     public Button checkBalanceBack;
 
-    //TODO
-    ////eTransferScreen
-    //public Button eTransferSend;
-    //public Button eTransferRequest;
-    //public Button eTransferBack;
-    ////if true, send, else request
-    //public bool sendOrRequest;
+    //eTransferScreen
+    public Button eTransferSend;
+    public Button eTransferRequest;
+    public Button eTransferBack;
+    //if true, send, else request
+    public bool sendOrRequest;
 
-    ////selectrecipient screen
-    //public Button selectrecipientBack;
+    //selectrecipient screen
+    public Button selectRecipientBack;
+    private string recipient = "";
+    public Button recipient1;
+    public Button recipient2;
+    public Button recipient3;
 
+    //settings screen
+    public Button settingsBack;
+    public Button settingsChangePin;
 
-    //account settings
+    //pin settings menu
+    public Button pinSettingsBack;
+    public Button pinSettingsCheck;
 
     // Use this for initialization
     void Start()
@@ -135,7 +139,6 @@ public class NavigationScript : MonoBehaviour
         settingsScreen.enabled = false;
         signoutscreen.enabled = false;
         removeCardScreen.enabled = false;
-        selectRecipent.enabled = false;
         withdrawBillScreen.enabled = false;
         transferSelectScreen.enabled = false;
         eTransferScreen.enabled = false;
@@ -208,9 +211,26 @@ public class NavigationScript : MonoBehaviour
         transferMoneyBack.onClick.AddListener(taskTransferMoneyBack);
         transferMoneyCheck.onClick.AddListener(taskTransferMoneyCheck);
 
-        // check balance screen
+        //etransfer screen
+        eTransferSend.onClick.AddListener(taskeTransferSend);
+        eTransferRequest.onClick.AddListener(taskeTransferRequest);
+        eTransferBack.onClick.AddListener(taskeTransferBack);
+
+        //select recipient screen
+        selectRecipientBack.onClick.AddListener(taskSelectRecipientBack);
+        recipient1.onClick.AddListener(taskRecipient1);
+        recipient1.onClick.AddListener(taskRecipient2);
+        recipient1.onClick.AddListener(taskRecipient3);
+
+        //check balance screen
         checkBalanceBack.onClick.AddListener(taskCheckBalanceBack);
 
+        //settings screen
+        settingsChangePin.onClick.AddListener(taskSettingsChangePin);
+
+        //pin settings
+        pinSettingsBack.onClick.AddListener(taskPinSettingsBack);
+        pinSettingsCheck.onClick.AddListener(taskPinSettingsCheck);
     }
 
     //start menu
@@ -521,7 +541,88 @@ public class NavigationScript : MonoBehaviour
         accountSelection.enabled = true;
     }
 
-    // ----------------------------------------------------------------------
+
+    ////etransfer screen
+    //eTransferSend.onClick.AddListener(taskeTransferSend);
+    //    eTransferRequest.onClick.AddListener(taskeTransferRequest);
+    //    eTransferBack.onClick.AddListener(taskeTransferBack);
+
+    //    //select recipient screen
+    //    selectRecipientBack.onClick.AddListener(taskSelectRecipientBack);
+
+
+    //etransfer screen
+
+    //send etransfer
+    void taskeTransferSend()
+    {
+        eTransferScreen.enabled = false;
+        selectRecipentScreen.enabled = true;
+        sendOrRequest = true;
+    }
+
+    //request etransfer
+    void taskeTransferRequest()
+    {
+        eTransferScreen.enabled = false;
+        selectRecipentScreen.enabled = true;
+        sendOrRequest = false;
+    }
+
+    //go back to transfer select
+    void taskeTransferBack()
+    {
+        transferSelectScreen.enabled = true;
+        eTransferScreen.enabled = false;
+    }
+
+    //select recipient screen
+    
+    //return to etransfer screen
+    void taskSelectRecipientBack()
+    {
+        selectRecipentScreen.enabled = false;
+        eTransferScreen.enabled = true;
+    }
+
+    void taskRecipient1()
+    {
+        //todo 
+        recipient = "Bob Jones";
+    }
+
+    void taskRecipient2()
+    {
+        //todo 
+        recipient = "Andrea Ha";
+    }
+
+    void taskRecipient3()
+    {
+        //todo 
+        recipient = "Frank Doe";
+    }
+
+    void taskSettingsChangePin()
+    {
+        settingsScreen.enabled = false;
+        PINSettingScreen.enabled = true;
+    }
+
+    void taskPinSettingsBack()
+    {
+        PINSettingScreen.enabled = false;
+        settingsScreen.enabled = true;
+    }
+
+    void taskPinSettingsCheck()
+    {
+        //PINSettingScreen.enabled = false;
+        //settingsScreen.enabled = true;
+        //TODO
+    }
+
+    // ---------------------------------------------------------------------
     // Below are functions to enable/disable buttons that are only clickable if they meet a certain condition
     // ----------------------------------------------------------------------
 
@@ -536,5 +637,4 @@ public class NavigationScript : MonoBehaviour
     {
         withdrawBillConfirm.interactable = false;
     }
-    
 }
