@@ -16,7 +16,7 @@ public class NavigationScript : MonoBehaviour
     public Canvas printReceipt;
     public Canvas withdrawScreen;
     public Canvas transferMoneyScreen;
-    public Canvas selectRecipentScreen;
+    public Canvas selectRecipientScreen;
     public Canvas checkBalanceScreen;
     public Canvas settingsScreen;
     public Canvas signoutscreen;
@@ -25,6 +25,7 @@ public class NavigationScript : MonoBehaviour
     public Canvas transferSelectScreen;
     public Canvas eTransferScreen;
     public Canvas PINSettingScreen;
+    public Canvas pinChangedScreen;
 
     //start menu
     public Button startMenuCardInsert;
@@ -134,7 +135,7 @@ public class NavigationScript : MonoBehaviour
         printReceipt.enabled = false;
         withdrawScreen.enabled = false;
         transferMoneyScreen.enabled = false;
-        selectRecipentScreen.enabled = false;
+        selectRecipientScreen.enabled = false;
         checkBalanceScreen.enabled = false;
         settingsScreen.enabled = false;
         signoutscreen.enabled = false;
@@ -143,6 +144,7 @@ public class NavigationScript : MonoBehaviour
         transferSelectScreen.enabled = false;
         eTransferScreen.enabled = false;
         PINSettingScreen.enabled = false;
+        pinChangedScreen.enabled = false;
 
         //start menu
         startMenuCardInsert.onClick.AddListener(taskInsert);
@@ -219,8 +221,8 @@ public class NavigationScript : MonoBehaviour
         //select recipient screen
         selectRecipientBack.onClick.AddListener(taskSelectRecipientBack);
         recipient1.onClick.AddListener(taskRecipient1);
-        recipient1.onClick.AddListener(taskRecipient2);
-        recipient1.onClick.AddListener(taskRecipient3);
+        recipient2.onClick.AddListener(taskRecipient2);
+        recipient3.onClick.AddListener(taskRecipient3);
 
         //check balance screen
         checkBalanceBack.onClick.AddListener(taskCheckBalanceBack);
@@ -405,7 +407,11 @@ public class NavigationScript : MonoBehaviour
         }
         else if(functionMode == 3)
         {
-            transferSelectScreen.enabled = true;
+            selectRecipientScreen.enabled = true;
+        }
+        else if(functionMode == 4)
+        {
+            selectRecipientScreen.enabled = true;
         }
         else
         {
@@ -450,6 +456,13 @@ public class NavigationScript : MonoBehaviour
                 }
             //transfer
             case 3:
+                {
+                    transferVerificationScreen.enabled = false;
+                    transferMoneyScreen.enabled = true;
+                    break;
+                }
+            //e-transfer
+            case 4:
                 {
                     transferVerificationScreen.enabled = false;
                     transferScreen.enabled = true;
@@ -503,6 +516,8 @@ public class NavigationScript : MonoBehaviour
     {
         transferSelectScreen.enabled = false;
         eTransferScreen.enabled = true;
+        //change functionmode to 4, since e-transfer
+        functionMode = 4;
     }
 
     //select pay bills
@@ -532,24 +547,14 @@ public class NavigationScript : MonoBehaviour
     void taskTransferMoneyCheck()
     {
         transferMoneyScreen.enabled = false;
-        transferScreen.enabled = true;
+        transferVerificationScreen.enabled = true;
     }
 
     void taskCheckBalanceBack()
     {
         checkBalanceScreen.enabled = false;
-        accountSelection.enabled = true;
+        mainScreen.enabled = true;
     }
-
-
-    ////etransfer screen
-    //eTransferSend.onClick.AddListener(taskeTransferSend);
-    //    eTransferRequest.onClick.AddListener(taskeTransferRequest);
-    //    eTransferBack.onClick.AddListener(taskeTransferBack);
-
-    //    //select recipient screen
-    //    selectRecipientBack.onClick.AddListener(taskSelectRecipientBack);
-
 
     //etransfer screen
 
@@ -557,7 +562,7 @@ public class NavigationScript : MonoBehaviour
     void taskeTransferSend()
     {
         eTransferScreen.enabled = false;
-        selectRecipentScreen.enabled = true;
+        selectRecipientScreen.enabled = true;
         sendOrRequest = true;
     }
 
@@ -565,7 +570,7 @@ public class NavigationScript : MonoBehaviour
     void taskeTransferRequest()
     {
         eTransferScreen.enabled = false;
-        selectRecipentScreen.enabled = true;
+        selectRecipientScreen.enabled = true;
         sendOrRequest = false;
     }
 
@@ -581,25 +586,28 @@ public class NavigationScript : MonoBehaviour
     //return to etransfer screen
     void taskSelectRecipientBack()
     {
-        selectRecipentScreen.enabled = false;
+        selectRecipientScreen.enabled = false;
         eTransferScreen.enabled = true;
     }
 
     void taskRecipient1()
     {
-        //todo 
+        transferScreen.enabled = true;
+        selectRecipientScreen.enabled = false;
         recipient = "Bob Jones";
     }
 
     void taskRecipient2()
     {
-        //todo 
+        transferScreen.enabled = true;
+        selectRecipientScreen.enabled = false;
         recipient = "Andrea Ha";
     }
 
     void taskRecipient3()
     {
-        //todo 
+        transferScreen.enabled = true;
+        selectRecipientScreen.enabled = false;
         recipient = "Frank Doe";
     }
 
@@ -609,6 +617,8 @@ public class NavigationScript : MonoBehaviour
         PINSettingScreen.enabled = true;
     }
 
+    //pin settings menu
+
     void taskPinSettingsBack()
     {
         PINSettingScreen.enabled = false;
@@ -617,9 +627,17 @@ public class NavigationScript : MonoBehaviour
 
     void taskPinSettingsCheck()
     {
-        //PINSettingScreen.enabled = false;
-        //settingsScreen.enabled = true;
-        //TODO
+        PINSettingScreen.enabled = false;
+        pinChangedScreen.enabled = true;
+        StartCoroutine(goBackToMenuFromPinChanged());
+    }
+
+    //go back to main menu from print
+    IEnumerator goBackToMenuFromPinChanged()
+    {
+        yield return new WaitForSeconds(5);
+        pinChangedScreen.enabled = false;
+        mainScreen.enabled = true;
     }
 
     // ---------------------------------------------------------------------
