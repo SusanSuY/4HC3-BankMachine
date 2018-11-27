@@ -43,7 +43,7 @@ public class NavigationScript : MonoBehaviour
     public Button checkBalance;
     public Button signout;
     // 0 = withdraw, 1 = deposit, 2 = check balance, 3 = etransfer
-    private int functionMode = -1;
+    public int functionMode = -1;
 
     //deposit screen
     public Button depositBack;
@@ -97,6 +97,9 @@ public class NavigationScript : MonoBehaviour
     //transfer money screen;
     public Button transferMoneyBack;
     public Button transferMoneyCheck;
+
+    // check balance screen;
+    public Button checkBalanceBack;
 
     //TODO
     ////eTransferScreen
@@ -205,6 +208,9 @@ public class NavigationScript : MonoBehaviour
         transferMoneyBack.onClick.AddListener(taskTransferMoneyBack);
         transferMoneyCheck.onClick.AddListener(taskTransferMoneyCheck);
 
+        // check balance screen
+        checkBalanceBack.onClick.AddListener(taskCheckBalanceBack);
+
     }
 
     //start menu
@@ -257,7 +263,7 @@ public class NavigationScript : MonoBehaviour
     void taskMainTransfer()
     {
         mainScreen.enabled = false;
-        transferScreen.enabled = true;
+        transferSelectScreen.enabled = true;
         functionMode = 3;
     }
 
@@ -379,7 +385,7 @@ public class NavigationScript : MonoBehaviour
         }
         else if(functionMode == 3)
         {
-            transferMoneyScreen.enabled = true;
+            transferSelectScreen.enabled = true;
         }
         else
         {
@@ -509,7 +515,26 @@ public class NavigationScript : MonoBehaviour
         transferScreen.enabled = true;
     }
 
+    void taskCheckBalanceBack()
+    {
+        checkBalanceScreen.enabled = false;
+        accountSelection.enabled = true;
+    }
 
+    // ----------------------------------------------------------------------
+    // Below are functions to enable/disable buttons that are only clickable if they meet a certain condition
+    // ----------------------------------------------------------------------
 
+    // Setup WithdrawBill Confirm button
+    public void EnableWithdrawBillConfirm()
+    {
+        withdrawBillConfirm.interactable = true;
+    }
 
+    // Disable WithdrawBill Confirm button
+    public void DisableWithdrawBillConfirm()
+    {
+        withdrawBillConfirm.interactable = false;
+    }
+    
 }
