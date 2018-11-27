@@ -35,6 +35,11 @@ public class NavigationScript : MonoBehaviour
     public Button pinBack;
     public Button pinCheck;
 
+    // remove card menu
+    private bool pinBackCardInserted;
+    private bool cardInserted;
+    public Button removeCard;
+
     //main menu
     public Button deposit;
     public Button withdraw;
@@ -42,7 +47,7 @@ public class NavigationScript : MonoBehaviour
     public Button transfer;
     public Button checkBalance;
     public Button signout;
-    // 0 = withdraw, 1 = deposit, 2 = check balance, 3 = etransfer
+    // 0 = withdraw, 1 = deposit, 2 = check balance, 3 = b/w acc transfer, 4 = eTransfer, 5 = pay bills
     public int functionMode = -1;
 
     //deposit screen
@@ -107,7 +112,7 @@ public class NavigationScript : MonoBehaviour
 
     //selectrecipient screen
     public Button selectRecipientBack;
-    private string recipient = "";
+    private string recipient;
     public Button recipient1;
     public Button recipient2;
     public Button recipient3;
@@ -153,6 +158,9 @@ public class NavigationScript : MonoBehaviour
         //pin menu
         pinBack.onClick.AddListener(taskPinBack);
         pinCheck.onClick.AddListener(taskPinCheck);
+
+        // remove card menu
+        removeCard.onClick.AddListener(taskSimulateCardRemoval);
 
         //main menu
         deposit.onClick.AddListener(taskMainDeposit);
@@ -239,26 +247,64 @@ public class NavigationScript : MonoBehaviour
     void taskInsert()
     {
         startMenu.enabled = false;
+        startMenu.GetComponent<PinControl>().ClearAllValues();
+        cardInserted = true;
         pinScreen.enabled = true;
     }
 
     void taskStartCheck()
     {
         startMenu.enabled = false;
-        mainScreen.enabled = true;
+        startMenu.GetComponent<PinControl>().ClearAllValues();
+        cardInserted = false;
+        pinScreen.enabled = true;
     }
 
     //pin menu
     void taskPinBack()
     {
-        startMenu.enabled = true;
         pinScreen.enabled = false;
+        pinScreen.GetComponent<PinControl>().ClearAllValues();
+        if (cardInserted)
+        {
+            pinBackCardInserted = true;
+            removeCardScreen.enabled = true;
+        }
+        else
+        {
+            startMenu.enabled = true;
+        }
     }
 
     void taskPinCheck()
     {
         pinScreen.enabled = false;
-        mainScreen.enabled = true;
+        pinScreen.GetComponent<PinControl>().ClearAllValues();
+        if (cardInserted)
+        {
+            pinBackCardInserted = false;
+            removeCardScreen.enabled = true;
+        }
+        else
+        {
+            mainScreen.enabled = true;
+            ClearAllValues();
+        }
+    }
+
+    void taskSimulateCardRemoval()
+    {
+        removeCardScreen.enabled = false;
+
+        if (pinBackCardInserted)
+        {
+            startMenu.enabled = true;
+        }
+        else
+        {
+            mainScreen.enabled = true;
+            ClearAllValues();
+        }
     }
 
     //main menu
@@ -286,7 +332,6 @@ public class NavigationScript : MonoBehaviour
     {
         mainScreen.enabled = false;
         transferSelectScreen.enabled = true;
-        functionMode = 3;
     }
 
     void taskMainCheckBalance()
@@ -305,7 +350,7 @@ public class NavigationScript : MonoBehaviour
 
     IEnumerator goBackToStart()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(4);
         signoutscreen.enabled = false;
         startMenu.enabled = true;
     }
@@ -315,6 +360,7 @@ public class NavigationScript : MonoBehaviour
     {
         depositScreen.enabled = false;
         mainScreen.enabled = true;
+        ClearAllValues();
     }
 
     void taskDepositCash()
@@ -366,6 +412,7 @@ public class NavigationScript : MonoBehaviour
         else
         {
             mainScreen.enabled = true;
+            ClearAllValues();
         }
     }
 
@@ -440,6 +487,7 @@ public class NavigationScript : MonoBehaviour
     {
         transferVerificationScreen.enabled = false;
         mainScreen.enabled = true;
+        ClearAllValues();
     }
 
     //receipt menu
@@ -456,14 +504,16 @@ public class NavigationScript : MonoBehaviour
     {
         receiptScreen.enabled = false;
         mainScreen.enabled = true;
+        ClearAllValues();
     }
 
     //go back to main menu from print
     IEnumerator goBackToMenu()
     {
-        yield return new WaitForSeconds(5);
-        receiptPrint.enabled = false;
+        yield return new WaitForSeconds(4);
+        printReceipt.enabled = false;
         mainScreen.enabled = true;
+        ClearAllValues();
     }
 
     //settings menu
@@ -471,6 +521,7 @@ public class NavigationScript : MonoBehaviour
     {
         settingsScreen.enabled = false;
         mainScreen.enabled = true;
+        ClearAllValues();
     }
 
     //transferSelect menu
@@ -480,6 +531,7 @@ public class NavigationScript : MonoBehaviour
         transferSelectScreen.enabled = false;
         transferMoneyScreen.enabled = true;
         accountOrBills = true;
+        functionMode = 3;
     }
 
     //select eTransfer
@@ -497,12 +549,14 @@ public class NavigationScript : MonoBehaviour
         transferSelectScreen.enabled = false;
         transferMoneyScreen.enabled = true;
         accountOrBills = false;
+        functionMode = 5;
     }
 
     void taskTransferSelectBack()
     {
         transferSelectScreen.enabled = false;
         mainScreen.enabled = true;
+        ClearAllValues();
     }
 
     //transfer money menu
@@ -593,12 +647,14 @@ public class NavigationScript : MonoBehaviour
     void taskPinSettingsBack()
     {
         PINSettingScreen.enabled = false;
+        PINSettingScreen.GetComponent<PinControl>().ClearAllValues();
         settingsScreen.enabled = true;
     }
 
     void taskPinSettingsCheck()
     {
         PINSettingScreen.enabled = false;
+        PINSettingScreen.GetComponent<PinControl>().ClearAllValues();
         pinChangedScreen.enabled = true;
         StartCoroutine(goBackToMenuFromPinChanged());
     }
@@ -606,9 +662,10 @@ public class NavigationScript : MonoBehaviour
     //go back to main menu from print
     IEnumerator goBackToMenuFromPinChanged()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(4);
         pinChangedScreen.enabled = false;
         mainScreen.enabled = true;
+        ClearAllValues();
     }
 
     // ---------------------------------------------------------------------
@@ -625,5 +682,15 @@ public class NavigationScript : MonoBehaviour
     public void DisableWithdrawBillConfirm()
     {
         withdrawBillConfirm.interactable = false;
+    }
+
+    /// ====================
+    /// 
+
+    private void ClearAllValues()
+    {
+        startMenu.GetComponent<PinControl>().ClearAllValues();
+        transferMoneyScreen.GetComponent<PinControl>().ClearAllValues();
+        transferScreen.GetComponent<PinControl>().ClearAllValues();
     }
 }
