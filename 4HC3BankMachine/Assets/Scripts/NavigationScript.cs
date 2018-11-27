@@ -438,37 +438,8 @@ public class NavigationScript : MonoBehaviour
     //if user selects no during verification
     void taskTransferNo()
     {
-        switch (functionMode)
-        {
-            //withdrawl
-            case 0:
-                {
-                    transferVerificationScreen.enabled = false;
-                    transferScreen.enabled = true;
-                    break;
-                }
-            //deposit
-            case 1:
-                {
-                    transferVerificationScreen.enabled = false;
-                    transferScreen.enabled = true;
-                    break;
-                }
-            //transfer
-            case 3:
-                {
-                    transferVerificationScreen.enabled = false;
-                    transferMoneyScreen.enabled = true;
-                    break;
-                }
-            //e-transfer
-            case 4:
-                {
-                    transferVerificationScreen.enabled = false;
-                    transferScreen.enabled = true;
-                    break;
-                }
-        }
+        transferVerificationScreen.enabled = false;
+        mainScreen.enabled = true;
     }
 
     //receipt menu
