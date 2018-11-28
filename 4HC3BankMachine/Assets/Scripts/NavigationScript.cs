@@ -724,9 +724,7 @@ public class NavigationScript : MonoBehaviour
     {
         if(pinSettingsmode == 0)
         {
-            //neither work
-            //currentPin.text = pinPanel.GetComponent<PinControl>().input;
-            //currentPin.text = pinControl.input;
+            pinControl = GameObject.Find("PIN_settings").GetComponent<PinControl>();
             pinSettingsmode++;
             pinControl.ClearAllValues();
         }
