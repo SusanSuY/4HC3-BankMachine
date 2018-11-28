@@ -126,8 +126,12 @@ public class Accounts : MonoBehaviour
 
     public void UpdateValidationScreenText(GameObject objectWithPinControl)
     {
+        // Get amount of currency from numpad InputField
         PinControl pinControl = objectWithPinControl.GetComponent<PinControl>();
-        UpdateValidationScreenText(float.Parse(pinControl.input));
+        float amount = float.Parse(pinControl.input);
+
+        // Update Validation screen
+        UpdateValidationScreenText(amount);
     }
 
     public void UpdateValidationScreenText(float amount)
@@ -143,6 +147,8 @@ public class Accounts : MonoBehaviour
         {
             // withdraw
             case 0:
+                WithdrawBills withdrawBills = GameObject.Find("EventSystem").GetComponent<WithdrawBills>();
+                withdrawBills.SetWithdrawAmount(verificationAmount);
                 verificationTitleText.SetText("Withdraw Verification");
                 verificationTitle1Text.SetText("Withdraw");
                 verificationAmountText.SetText(ToMoneyFormat(verificationAmount));
@@ -210,6 +216,12 @@ public class Accounts : MonoBehaviour
         {
             // withdraw
             case 0:
+                if (verificationAmount % 5 != 0)
+                {
+                    errorMessage.errorPopup.SetText("The amount to withdraw must be a multiple of 5.");
+                    success = false;
+                }
+
                 if (verificationAmount > selectedAccount.GetBalance())
                 {
                     errorMessage.errorPopup.SetText("The balance of " +

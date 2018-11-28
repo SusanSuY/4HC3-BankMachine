@@ -488,7 +488,14 @@ public class NavigationScript : MonoBehaviour
 
         if (accounts.ValidateAmount())
         {
-            transferVerificationScreen.enabled = true;
+            if (functionMode == 0)
+            {
+                withdrawBillScreen.enabled = true;
+            }
+            else
+            {
+                transferVerificationScreen.enabled = true;
+            }
             transferScreen.enabled = false;
         }
     }
