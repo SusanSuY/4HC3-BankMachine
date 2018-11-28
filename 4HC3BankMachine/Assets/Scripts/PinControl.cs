@@ -21,6 +21,7 @@ public class PinControl : MonoBehaviour
     public int requiredDigitInputLength;
     public int maxDigitInputLength;
     public Button checkmark;
+    public bool cannotEnterZero;
 
     private string encryptInput = "";
     public string input;
@@ -88,10 +89,18 @@ public class PinControl : MonoBehaviour
             if (input.Length <= 0)
             {
                 checkmark.interactable = false;
+                if (cannotEnterZero)
+                {
+                    zero.interactable = false;
+                }
             }
             else
             {
                 checkmark.interactable = true;
+                if (cannotEnterZero && input.Length < maxDigitInputLength)
+                {
+                    zero.interactable = true;
+                }
             }
 
             if (maxDigitInputLength > 0)
@@ -133,7 +142,10 @@ public class PinControl : MonoBehaviour
 
     private void EnableAllNumberButtons()
     {
-        zero.interactable = true;
+        if (!cannotEnterZero)
+        {
+            zero.interactable = true;
+        }
         one.interactable = true;
         two.interactable = true;
         three.interactable = true;

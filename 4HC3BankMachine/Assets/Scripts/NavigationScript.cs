@@ -474,6 +474,7 @@ public class NavigationScript : MonoBehaviour
         {
             accountSelection.enabled = true;
         }
+        ClearAllValues();
     }
     //if checkmark is clicked
     void taskTransferCheck()

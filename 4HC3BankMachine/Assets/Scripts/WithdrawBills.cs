@@ -64,6 +64,84 @@ public class WithdrawBills : MonoBehaviour
         UpdateWithdrawAmount();
         UpdateBillQuantities();
         UpdateCurrentAmountSelected();
+        SetButtonInteractability();
+    }
+
+    private void SetButtonInteractability()
+    {
+        // QUANTITY DOWN BUTTONS
+        if (fiveQty == 0)
+        {
+            fiveQtyDown.interactable = false;
+        }
+        else
+        {
+            fiveQtyDown.interactable = true;
+        }
+
+        if (tenQty == 0)
+        {
+            tenQtyDown.interactable = false;
+        }
+        else
+        {
+            tenQtyDown.interactable = true;
+        }
+
+        if (twentyQty == 0)
+        {
+            twentyQtyDown.interactable = false;
+        }
+        else
+        {
+            twentyQtyDown.interactable = true;
+        }
+
+        if (fiftyQty == 0)
+        {
+            fiftyQtyDown.interactable = false;
+        }
+        else
+        {
+            fiftyQtyDown.interactable = true;
+        }
+
+        // QUANTITY UP BUTTONS
+        if (currentAmountSelected + 5 > amountToWithdraw)
+        {
+            fiveQtyUp.interactable = false;
+        }
+        else
+        {
+            fiveQtyUp.interactable = true;
+        }
+
+        if (currentAmountSelected + 10 > amountToWithdraw)
+        {
+            tenQtyUp.interactable = false;
+        }
+        else
+        {
+            tenQtyUp.interactable = true;
+        }
+
+        if (currentAmountSelected + 20 > amountToWithdraw)
+        {
+            twentyQtyUp.interactable = false;
+        }
+        else
+        {
+            twentyQtyUp.interactable = true;
+        }
+
+        if (currentAmountSelected + 50 > amountToWithdraw)
+        {
+            fiftyQtyUp.interactable = false;
+        }
+        else
+        {
+            fiftyQtyUp.interactable = true;
+        }
     }
 
     public void SetWithdrawAmount(float amount)
