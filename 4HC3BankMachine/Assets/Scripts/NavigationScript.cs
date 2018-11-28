@@ -130,6 +130,12 @@ public class NavigationScript : MonoBehaviour
     //pin settings menu
     public Button pinSettingsBack;
     public Button pinSettingsCheck;
+    private int pinSettingsmode = 0;
+    public TMP_InputField currentPin;
+    public TMP_InputField newPin;
+    public TMP_InputField confirmPin;
+    public GameObject pinPanel;
+    private PinControl pinControl;
 
     // Use this for initialization
     void Start()
@@ -248,6 +254,7 @@ public class NavigationScript : MonoBehaviour
         //pin settings
         pinSettingsBack.onClick.AddListener(taskPinSettingsBack);
         pinSettingsCheck.onClick.AddListener(taskPinSettingsCheck);
+        PinControl pinControl = pinPanel.GetComponent<PinControl>();
     }
 
     //start menu
@@ -701,6 +708,7 @@ public class NavigationScript : MonoBehaviour
     {
         settingsScreen.enabled = false;
         PINSettingScreen.enabled = true;
+        pinSettingsmode = 0;
     }
 
     //pin settings menu
@@ -714,10 +722,33 @@ public class NavigationScript : MonoBehaviour
 
     void taskPinSettingsCheck()
     {
-        PINSettingScreen.enabled = false;
-        PINSettingScreen.GetComponent<PinControl>().ClearAllValues();
-        pinChangedScreen.enabled = true;
-        StartCoroutine(goBackToMenuFromPinChanged());
+        if(pinSettingsmode == 0)
+        {
+            //neither work
+            //currentPin.text = pinPanel.GetComponent<PinControl>().input;
+            //currentPin.text = pinControl.input;
+            pinSettingsmode++;
+            pinControl.ClearAllValues();
+        }
+        else if(pinSettingsmode == 1)
+        {
+            newPin.text = pinPanel.GetComponent<PinControl>().input;
+            newPin.text = pinControl.input;
+            pinSettingsmode++;
+        }
+        else if(pinSettingsmode == 2)
+        {
+            confirmPin.text = pinPanel.GetComponent<PinControl>().input;
+            confirmPin.text = pinControl.input;
+            pinSettingsmode++;
+        }
+        else if (pinSettingsmode == 3)
+        {
+            PINSettingScreen.enabled = false;
+            PINSettingScreen.GetComponent<PinControl>().ClearAllValues();
+            pinChangedScreen.enabled = true;
+            StartCoroutine(goBackToMenuFromPinChanged());
+        }
     }
 
     //go back to main menu from print

@@ -6970,6 +6970,10 @@ MonoBehaviour:
   settingsChangePin: {fileID: 1244424809}
   pinSettingsBack: {fileID: 919617178}
   pinSettingsCheck: {fileID: 500107575}
+  currentPin: {fileID: 1243513299}
+  newPin: {fileID: 869331918}
+  confirmPin: {fileID: 1855097351}
+  pinPanel: {fileID: 1216957097}
 --- !u!114 &304962874
 MonoBehaviour:
   m_ObjectHideFlags: 0
