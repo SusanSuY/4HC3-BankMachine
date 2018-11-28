@@ -134,7 +134,7 @@ public class NavigationScript : MonoBehaviour
     public TMP_InputField currentPin;
     public TMP_InputField newPin;
     public TMP_InputField confirmPin;
-    public GameObject pinPanel;
+    //public GameObject pinPanel;
     private PinControl pinControl;
 
     // Use this for initialization
@@ -254,7 +254,7 @@ public class NavigationScript : MonoBehaviour
         //pin settings
         pinSettingsBack.onClick.AddListener(taskPinSettingsBack);
         pinSettingsCheck.onClick.AddListener(taskPinSettingsCheck);
-        PinControl pinControl = pinPanel.GetComponent<PinControl>();
+        //PinControl pinControl = GameObject.Find("PIN_settings").GetComponent<PinControl>();
     }
 
     //start menu
@@ -709,12 +709,18 @@ public class NavigationScript : MonoBehaviour
         settingsScreen.enabled = false;
         PINSettingScreen.enabled = true;
         pinSettingsmode = 0;
+        currentPin.interactable = true;
+        newPin.interactable = false;
+        confirmPin.interactable = false;
     }
 
     //pin settings menu
 
     void taskPinSettingsBack()
     {
+        currentPin.text = "";
+        newPin.text = "";
+        confirmPin.text = "";
         PINSettingScreen.enabled = false;
         PINSettingScreen.GetComponent<PinControl>().ClearAllValues();
         settingsScreen.enabled = true;
@@ -725,25 +731,32 @@ public class NavigationScript : MonoBehaviour
         if(pinSettingsmode == 0)
         {
             pinControl = GameObject.Find("PIN_settings").GetComponent<PinControl>();
+            currentPin.text = pinControl.input;
             pinSettingsmode++;
             pinControl.ClearAllValues();
+            currentPin.interactable = false;
+            newPin.interactable = true;
+            confirmPin.interactable = false;
         }
         else if(pinSettingsmode == 1)
         {
-            newPin.text = pinPanel.GetComponent<PinControl>().input;
+            pinControl = GameObject.Find("PIN_settings").GetComponent<PinControl>();
             newPin.text = pinControl.input;
+            pinControl.ClearAllValues();
             pinSettingsmode++;
+            currentPin.interactable = false;
+            newPin.interactable = false;
+            confirmPin.interactable = true;
         }
         else if(pinSettingsmode == 2)
         {
-            confirmPin.text = pinPanel.GetComponent<PinControl>().input;
+            pinControl = GameObject.Find("PIN_settings").GetComponent<PinControl>();
             confirmPin.text = pinControl.input;
-            pinSettingsmode++;
-        }
-        else if (pinSettingsmode == 3)
-        {
+            pinControl.ClearAllValues();
+            currentPin.text = "";
+            newPin.text = "";
+            confirmPin.text = "";
             PINSettingScreen.enabled = false;
-            PINSettingScreen.GetComponent<PinControl>().ClearAllValues();
             pinChangedScreen.enabled = true;
             StartCoroutine(goBackToMenuFromPinChanged());
         }
