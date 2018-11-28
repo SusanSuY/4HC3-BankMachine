@@ -26,6 +26,7 @@ public class NavigationScript : MonoBehaviour
     public Canvas eTransferScreen;
     public Canvas PINSettingScreen;
     public Canvas pinChangedScreen;
+    public Canvas popupScreen;
 
     //start menu
     public Button startMenuCardInsert;
@@ -150,6 +151,7 @@ public class NavigationScript : MonoBehaviour
         eTransferScreen.enabled = false;
         PINSettingScreen.enabled = false;
         pinChangedScreen.enabled = false;
+        popupScreen.enabled = false;
 
         //start menu
         startMenuCardInsert.onClick.AddListener(taskInsert);
