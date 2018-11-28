@@ -8,6 +8,7 @@ public class AmountScreen : MonoBehaviour
     private NavigationScript navigation;
 
     public TextMeshProUGUI titleText;
+    public TextMeshProUGUI infoText;
     public TextMeshProUGUI inputFieldTitleText;
 
     // Use this for initialization
@@ -39,6 +40,17 @@ public class AmountScreen : MonoBehaviour
             case 4:
                 titleText.SetText("Enter an Amount to Send");
                 inputFieldTitleText.SetText("Amount to Send:");
+                break;
+            // Pay Bills
+            case 5:
+                titleText.SetText("Enter an Amount to Pay");
+                inputFieldTitleText.SetText("Amount to Pay:");
+                break;
+            // eTransfer Request
+            case 6:
+                titleText.SetText("Enter an Amount to Request");
+                infoText.SetText("");
+                inputFieldTitleText.SetText("Amount to Request:");
                 break;
         }
     }

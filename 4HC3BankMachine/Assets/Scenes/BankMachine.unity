@@ -7040,6 +7040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleText: {fileID: 1833314669}
+  infoText: {fileID: 1021490553}
   inputFieldTitleText: {fileID: 1086395442}
 --- !u!1 &307396346
 GameObject:

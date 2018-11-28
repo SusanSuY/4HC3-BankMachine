@@ -485,10 +485,10 @@ public class Accounts : MonoBehaviour
         }
         else
         {
-            receiptInfoText.SetText("ERROR: could not find account information");
-            amountInfoText.SetText("ERROR: could not find account information");
-            checkBalanceCurrentBalanceText.SetText("ERROR: could not find account information");
-            withdrawCurrentBalanceText.SetText("ERROR: could not find account information");
+            receiptInfoText.SetText("Requested " + ToMoneyFormat(verificationAmount) + " from " + selectedRecipient.GetName());
+            amountInfoText.SetText("");
+            checkBalanceCurrentBalanceText.SetText("");
+            withdrawCurrentBalanceText.SetText("");
         }
     }
 
