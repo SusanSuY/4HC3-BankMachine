@@ -136,6 +136,7 @@ public class NavigationScript : MonoBehaviour
     public TMP_InputField confirmPin;
     //public GameObject pinPanel;
     private PinControl pinControl;
+    private string newPinAdded;
 
     // Use this for initialization
     void Start()
@@ -748,6 +749,7 @@ public class NavigationScript : MonoBehaviour
         {
             pinControl = GameObject.Find("PIN_settings").GetComponent<PinControl>();
             newPin.text = pinControl.input;
+            newPinAdded = pinControl.actualInput;
             pinControl.ClearAllValues();
             pinSettingsmode++;
             currentPin.interactable = false;
@@ -757,14 +759,23 @@ public class NavigationScript : MonoBehaviour
         else if(pinSettingsmode == 2)
         {
             pinControl = GameObject.Find("PIN_settings").GetComponent<PinControl>();
-            confirmPin.text = pinControl.input;
-            pinControl.ClearAllValues();
-            currentPin.text = "";
-            newPin.text = "";
-            confirmPin.text = "";
-            PINSettingScreen.enabled = false;
-            pinChangedScreen.enabled = true;
-            StartCoroutine(goBackToMenuFromPinChanged());
+            if (pinControl.actualInput == newPinAdded)
+            {
+                confirmPin.text = pinControl.input;
+                pinControl.ClearAllValues();
+                currentPin.text = "";
+                newPin.text = "";
+                confirmPin.text = "";
+                PINSettingScreen.enabled = false;
+                pinChangedScreen.enabled = true;
+                StartCoroutine(goBackToMenuFromPinChanged());
+            }
+            else
+            {
+                ErrorMessageControl errorPopup = popupScreen.GetComponent<ErrorMessageControl>();
+                errorPopup.errorPopup.SetText("Your pin does not match");
+                popupScreen.enabled = true;
+            }
         }
     }
 

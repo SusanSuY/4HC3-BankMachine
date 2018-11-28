@@ -26,6 +26,7 @@ public class PinControl : MonoBehaviour
     private string encryptInput = "";
     public string input;
     public bool encryptPin;
+    public string actualInput;
 
     // Use this for initialization
     void Start()
@@ -66,6 +67,7 @@ public class PinControl : MonoBehaviour
         encryptInput = "";
         input = "";
         pinInput.text = "";
+        actualInput = "";
     }
 
     // check if required # of digits are inputted
@@ -160,56 +162,67 @@ public class PinControl : MonoBehaviour
     void taskOne()
     {
         pinInput.text = pinInput.text + "1";
+        actualInput = actualInput + "1";
     }
 
     void taskTwo()
     {
         pinInput.text = pinInput.text + "2";
+        actualInput = actualInput + "2";
     }
 
     void taskThree()
     {
         pinInput.text = pinInput.text + "3";
+        actualInput = actualInput + "3";
     }
 
     void taskFour()
     {
         pinInput.text = pinInput.text + "4";
+        actualInput = actualInput + "4";
     }
 
     void taskFive()
     {
         pinInput.text = pinInput.text + "5";
+        actualInput = actualInput + "5";
     }
 
     void taskSix()
     {
         pinInput.text = pinInput.text + "6";
+        actualInput = actualInput + "6";
     }
 
     void taskSeven()
     {
         pinInput.text = pinInput.text + "7";
+        actualInput = actualInput + "7";
     }
 
     void taskEight()
     {
         pinInput.text = pinInput.text + "8";
+        actualInput = actualInput + "8";
     }
 
     void taskNine()
     {
         pinInput.text = pinInput.text + "9";
+        actualInput = actualInput + "9";
     }
 
     void taskZero()
     {
         pinInput.text = pinInput.text + "0";
+        actualInput = actualInput + "0";
     }
 
     void taskDelete()
     {
         pinInput.text = pinInput.text.Substring(0, (pinInput.text.Length - 1));
+        actualInput = actualInput.Substring(0, (actualInput.Length - 1));
     }
 
 
