@@ -296,10 +296,6 @@ public class WithdrawBills : MonoBehaviour
         {
             fiveQty++;
         }
-        else
-        {
-            DisplayErrorMessage("Cannot add $5; currentAmountSelected will exceed amountToWithdraw!");
-        }
     }
 
     private void IncreaseTenQty()
@@ -307,10 +303,6 @@ public class WithdrawBills : MonoBehaviour
         if (currentAmountSelected + 10f <= amountToWithdraw)
         {
             tenQty++;
-        }
-        else
-        {
-            DisplayErrorMessage("Cannot add $10; currentAmountSelected will exceed amountToWithdraw!");
         }
     }
 
@@ -320,10 +312,6 @@ public class WithdrawBills : MonoBehaviour
         {
             twentyQty++;
         }
-        else
-        {
-            DisplayErrorMessage("Cannot add $20; currentAmountSelected will exceed amountToWithdraw!");
-        }
     }
 
     private void IncreaseFiftyQty()
@@ -332,15 +320,5 @@ public class WithdrawBills : MonoBehaviour
         {
             fiftyQty++;
         }
-        else
-        {
-            DisplayErrorMessage("Cannot add $50; currentAmountSelected will exceed amountToWithdraw!");
-        }
-    }
-
-    private void DisplayErrorMessage(string error)
-    {
-        Debug.Log(error);
-        EditorUtility.DisplayDialog("Error", error, "OK");
     }
 }
