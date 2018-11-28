@@ -11,8 +11,7 @@ public class Accounts : MonoBehaviour
     public TextMeshProUGUI accountSummaryText;
     public TextMeshProUGUI checkBalanceCurrentBalanceText;
     public TextMeshProUGUI amountInfoText;
-    public TextMeshProUGUI receiptNewBalanceText;
-    public TextMeshProUGUI receiptAccountText;
+    public TextMeshProUGUI receiptInfoText;
     public TextMeshProUGUI withdrawCurrentBalanceText;
 
     // Verification
@@ -44,8 +43,16 @@ public class Accounts : MonoBehaviour
     private Recipient andrea;
     private Recipient frank;
 
+    // Payee
+    private Payee mcMaster;
+    private Payee electricCompany;
+    private Payee canadianTaxRevenue;
+
     // Currently selected account
     private Account selectedAccount;
+    private Account toAccount;
+
+    private Recipient selectedRecipient;
 
     // Navigation
     private NavigationScript navigation;
@@ -70,13 +77,19 @@ public class Accounts : MonoBehaviour
         bob = new Recipient("Bob Jones");
         andrea = new Recipient("Andrea He");
         frank = new Recipient("Frank Doe");
+
+        // Initialize all 3 payees
+        mcMaster = new Payee("McMaster University");
+        electricCompany = new Payee("Electric Company");
+        canadianTaxRevenue = new Payee("Canadian Tax Revenue Agency");
+
+        // Setup transfer money dropdown updates
+        fromDropdownTransfer.onValueChanged.AddListener(FromDropdownTransferOnValueChanged);
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateTransferMoneyFromDropdown();
-        UpdateTransferMoneyToDropdown();
     }
 
     public void UpdateTransferMoneyFromDropdown()
@@ -99,38 +112,13 @@ public class Accounts : MonoBehaviour
 
         // Add accounts to options
         fromDropdownTransfer.AddOptions(accounts);
+
+        StartCoroutine(UpdateTransferMoneyToDropdown());
     }
 
-    private void UpdateTransferMoneyToDropdown()
+    private void FromDropdownTransferOnValueChanged(int arg0)
     {
-        // TRANSFER BETWEEN ACCOUNTS
-        if (navigation.functionMode == 3)
-        {
-            toDropdownTransfer.ClearOptions();
-
-            // Get accounts with balances
-            string account1 = chequing.GetName() + " | " + ToMoneyFormat(chequing.GetBalance());
-            string account2 = savings.GetName() + " | " + ToMoneyFormat(savings.GetBalance());
-            string account3 = taxFreeSavings.GetName() + " | " + ToMoneyFormat(taxFreeSavings.GetBalance());
-            string account4 = basicAccount.GetName() + " | " + ToMoneyFormat(basicAccount.GetBalance());
-
-            // Create list of accounts
-            List<string> accounts = new List<string>();
-            accounts.Add(account1);
-            accounts.Add(account2);
-            accounts.Add(account3);
-            accounts.Add(account4);
-
-            // Remove currently selected account in "from"
-            accounts.Remove(fromDropdownTransfer.options[fromDropdownTransfer.value].text);
-
-            toDropdownTransfer.AddOptions(accounts);
-        }
-        // TRANSFER - PAY BILLS
-        else if (navigation.functionMode == 5)
-        {
-
-        }
+        StartCoroutine(UpdateTransferMoneyToDropdown());
     }
 
     public void UpdateValidationScreenText(GameObject objectWithPinControl)
@@ -159,19 +147,47 @@ public class Accounts : MonoBehaviour
                 verificationAmountText.SetText(ToMoneyFormat(verificationAmount));
                 verificationTitle2Text.SetText("to " + selectedAccount.GetName() + "?");
                 break;
-            // Transfer
+            // Transfer b/w accounts
             case 3:
                 verificationTitleText.SetText("Transfer Verification");
                 verificationTitle1Text.SetText("Transfer");
                 string fromAccount = fromDropdownTransfer.options[fromDropdownTransfer.value].text;
-                string toAccount = fromDropdownTransfer.options[toDropdownTransfer.value].text;
+                string toAccountStr = toDropdownTransfer.options[toDropdownTransfer.value].text;
                 fromAccount = fromAccount.Split('|')[0];
-                toAccount = toAccount.Split('|')[0];
-                verificationTitle2Text.SetText("from " + fromAccount + " to " + toAccount + "?");
+                fromAccount = fromAccount.Substring(0, fromAccount.Length - 1);
+                toAccountStr = toAccountStr.Split('|')[0];
+                toAccountStr = toAccountStr.Substring(0, toAccountStr.Length - 1);
+                verificationTitle2Text.SetText("from " + fromAccount + " to " + toAccountStr + "?");
+                verificationAmountText.SetText(ToMoneyFormat(verificationAmount));
+                Debug.Log("fromAccount = " + fromAccount + ", toAccount = " + toAccountStr);
+                selectedAccount = GetAccountFromName(fromAccount);
+                toAccount = GetAccountFromName(toAccountStr);
+                break;
+            // eTransfer Pay
+            case 4:
+                verificationTitleText.SetText("E-Transfer Verification");
+                verificationTitle1Text.SetText("Pay");
+                verificationAmountText.SetText(ToMoneyFormat(verificationAmount));
+                verificationTitle2Text.SetText("from " + selectedAccount.GetName() + " to " + selectedRecipient.GetName() + "?");
+                break;
+            // Pay Bills
+            case 5:
+                verificationTitleText.SetText("Transfer Verification");
+                verificationTitle1Text.SetText("Pay");
+                string fromAccount2 = fromDropdownTransfer.options[fromDropdownTransfer.value].text;
+                fromAccount2 = fromAccount2.Split('|')[0];
+                fromAccount2 = fromAccount2.Substring(0, fromAccount2.Length - 1);
+                selectedAccount = GetAccountFromName(fromAccount2);
+                string payee = toDropdownTransfer.options[toDropdownTransfer.value].text;
+                verificationTitle2Text.SetText("from " + fromAccount2 + " to " + payee + "?");
                 verificationAmountText.SetText(ToMoneyFormat(verificationAmount));
                 break;
-            // eTransfer
-            case 4:
+            // eTransfer Request
+            case 6:
+                verificationTitleText.SetText("E-Transfer Verification");
+                verificationTitle1Text.SetText("Request");
+                verificationAmountText.SetText(ToMoneyFormat(verificationAmount));
+                verificationTitle2Text.SetText("from " + selectedRecipient.GetName() + "?");
                 break;
         }
     }
@@ -189,8 +205,18 @@ public class Accounts : MonoBehaviour
             case 1:
                 selectedAccount.IncreaseBalance(verificationAmount);
                 break;
-            // Transfer
+            // Transfer b/w accounts
             case 3:
+                selectedAccount.DecreaseBalance(verificationAmount);
+                toAccount.IncreaseBalance(verificationAmount);
+                break;
+            // eTransfer Pay
+            case 4:
+                selectedAccount.DecreaseBalance(verificationAmount);
+                break;
+            // Pay Bills
+            case 5:
+                selectedAccount.DecreaseBalance(verificationAmount);
                 break;
         }
 
@@ -228,10 +254,10 @@ public class Accounts : MonoBehaviour
             case "Savings":
                 account = savings;
                 break;
-            case "TaxFreeSavings":
+            case "Tax-Free Savings":
                 account = taxFreeSavings;
                 break;
-            case "Basic":
+            case "Basic Account":
                 account = basicAccount;
                 break;
             default:
@@ -242,8 +268,30 @@ public class Accounts : MonoBehaviour
         return account;
     }
 
+    public void SetRecipientFromName(string recipientName)
+    {
+        Recipient recipient;
+        switch (recipientName)
+        {
+            case "Bob":
+                recipient = bob;
+                break;
+            case "Andrea":
+                recipient = andrea;
+                break;
+            case "Frank":
+                recipient = frank;
+                break;
+            default:
+                recipient = null;
+                break;
+        }
+
+        selectedRecipient = recipient;
+    }
+
     private void UpdateButtonInteractability(Account account)
-    { 
+    {
         if (account == null)
         {
             return;
@@ -314,24 +362,99 @@ public class Accounts : MonoBehaviour
 
     private void UpdateCurrentBalance(Account account)
     {
-        Debug.Log("UpdateCurrentBalance() called");
-
         if (account != null)
         {
-            Debug.Log("Texts set");
-            receiptNewBalanceText.SetText(ToMoneyFormat(account.GetBalance()));
-            receiptAccountText.SetText(account.GetName());
+            if (navigation.functionMode == 3)
+            {
+                receiptInfoText.SetText("From Account: " + selectedAccount.GetName() +
+                    ", Current Balance: " + ToMoneyFormat(selectedAccount.GetBalance()) +
+                    "\nTo Account: " + toAccount.GetName() +
+                    ", Current Balance: " + ToMoneyFormat(toAccount.GetBalance()));
+            }
+            else if (navigation.functionMode == 4)
+            {
+                receiptInfoText.SetText("From Account: " + selectedAccount.GetName() +
+                    ", Current Balance: " + ToMoneyFormat(selectedAccount.GetBalance()) +
+                    "\nRecipient: " + selectedRecipient.GetName());
+            }
+            else if (navigation.functionMode == 5)
+            {
+                receiptInfoText.SetText("From Account: " + selectedAccount.GetName() +
+                    ", Current Balance: " + ToMoneyFormat(selectedAccount.GetBalance()) +
+                    "\nPayee: " + toDropdownTransfer.options[toDropdownTransfer.value].text);
+            }
+            else if (navigation.functionMode == 6)
+            {
+                receiptInfoText.SetText("Requested " + ToMoneyFormat(verificationAmount) +
+                    " from " + selectedRecipient.GetName());
+            }
+            else
+            {
+                receiptInfoText.SetText("Account: " + selectedAccount.GetName() + "\nCurrent Balance: " + ToMoneyFormat(account.GetBalance()));
+            }
+
             amountInfoText.SetText("Current Balance: " + ToMoneyFormat(account.GetBalance()));
             checkBalanceCurrentBalanceText.SetText("Current Balance: " + ToMoneyFormat(account.GetBalance()));
             withdrawCurrentBalanceText.SetText("Current Balance: " + ToMoneyFormat(account.GetBalance()));
         }
         else
         {
-            receiptNewBalanceText.SetText("ERROR: could not find account information");
-            receiptAccountText.SetText("NO ACCOUNT FOUND");
+            receiptInfoText.SetText("ERROR: could not find account information");
             amountInfoText.SetText("ERROR: could not find account information");
             checkBalanceCurrentBalanceText.SetText("ERROR: could not find account information");
             withdrawCurrentBalanceText.SetText("ERROR: could not find account information");
+        }
+    }
+
+    private IEnumerator UpdateTransferMoneyToDropdown()
+    {
+        yield return new WaitForFixedUpdate();
+
+        // TRANSFER BETWEEN ACCOUNTS
+        if (navigation.functionMode == 3)
+        {
+            toDropdownTransfer.ClearOptions();
+
+            // Get accounts with balances
+            string account1 = chequing.GetName() + " | " + ToMoneyFormat(chequing.GetBalance());
+            string account2 = savings.GetName() + " | " + ToMoneyFormat(savings.GetBalance());
+            string account3 = taxFreeSavings.GetName() + " | " + ToMoneyFormat(taxFreeSavings.GetBalance());
+            string account4 = basicAccount.GetName() + " | " + ToMoneyFormat(basicAccount.GetBalance());
+
+            // Create list of accounts
+            List<string> accounts = new List<string>();
+            accounts.Add(account1);
+            accounts.Add(account2);
+            accounts.Add(account3);
+            accounts.Add(account4);
+
+            // Remove currently selected account in "from"
+            accounts.Remove(fromDropdownTransfer.options[fromDropdownTransfer.value].text);
+
+            toDropdownTransfer.AddOptions(accounts);
+        }
+        else if (navigation.functionMode == 4 || navigation.functionMode == 6)
+        {
+            toDropdownTransfer.ClearOptions();
+
+            List<string> recipients = new List<string>();
+            recipients.Add(bob.GetName());
+            recipients.Add(andrea.GetName());
+            recipients.Add(frank.GetName());
+
+            toDropdownTransfer.AddOptions(recipients);
+        }
+        // TRANSFER - PAY BILLS
+        else if (navigation.functionMode == 5)
+        {
+            toDropdownTransfer.ClearOptions();
+
+            List<string> payees = new List<string>();
+            payees.Add(mcMaster.GetName());
+            payees.Add(electricCompany.GetName());
+            payees.Add(canadianTaxRevenue.GetName());
+
+            toDropdownTransfer.AddOptions(payees);
         }
     }
 
@@ -422,6 +545,22 @@ class Recipient
     private string name;
 
     public Recipient(string name)
+    {
+        this.name = name;
+    }
+
+    public string GetName()
+    {
+        return name;
+    }
+}
+
+// Class definition for Payee
+class Payee
+{
+    private string name;
+
+    public Payee(string name)
     {
         this.name = name;
     }

@@ -48,7 +48,8 @@ public class NavigationScript : MonoBehaviour
     public Button transfer;
     public Button checkBalance;
     public Button signout;
-    // 0 = withdraw, 1 = deposit, 2 = check balance, 3 = b/w acc transfer, 4 = eTransfer, 5 = pay bills
+    // 0 = withdraw, 1 = deposit, 2 = check balance, 3 = b/w acc transfer,
+    // 4 = eTransfer pay, 5 = pay bills, 6 = eTransfer request
     public int functionMode = -1;
 
     //deposit screen
@@ -443,6 +444,13 @@ public class NavigationScript : MonoBehaviour
                     checkBalanceScreen.enabled = true;
                     break;
                 }
+            case 4:
+            case 6:
+                {
+                    accountSelection.enabled = false;
+                    transferScreen.enabled = true;
+                    break;
+                }
         }
     }
 
@@ -541,8 +549,6 @@ public class NavigationScript : MonoBehaviour
     {
         transferSelectScreen.enabled = false;
         eTransferScreen.enabled = true;
-        //change functionmode to 4, since e-transfer
-        functionMode = 4;
     }
 
     //select pay bills
@@ -591,6 +597,8 @@ public class NavigationScript : MonoBehaviour
         eTransferScreen.enabled = false;
         selectRecipientScreen.enabled = true;
         sendOrRequest = true;
+        //change functionmode to 4, since e-transfer send
+        functionMode = 4;
     }
 
     //request etransfer
@@ -599,6 +607,8 @@ public class NavigationScript : MonoBehaviour
         eTransferScreen.enabled = false;
         selectRecipientScreen.enabled = true;
         sendOrRequest = false;
+        //change functionmode to 6, since e-transfer request
+        functionMode = 6;
     }
 
     //go back to transfer select
@@ -619,21 +629,42 @@ public class NavigationScript : MonoBehaviour
 
     void taskRecipient1()
     {
-        transferScreen.enabled = true;
+        if (functionMode == 4)
+        {
+            accountSelection.enabled = true;
+        }
+        else if (functionMode == 6)
+        {
+            transferScreen.enabled = true;
+        }
         selectRecipientScreen.enabled = false;
         recipient = "Bob Jones";
     }
 
     void taskRecipient2()
     {
-        transferScreen.enabled = true;
+        if (functionMode == 4)
+        {
+            accountSelection.enabled = true;
+        }
+        else if (functionMode == 6)
+        {
+            transferScreen.enabled = true;
+        }
         selectRecipientScreen.enabled = false;
         recipient = "Andrea Ha";
     }
 
     void taskRecipient3()
     {
-        transferScreen.enabled = true;
+        if (functionMode == 4)
+        {
+            accountSelection.enabled = true;
+        }
+        else if (functionMode == 6)
+        {
+            transferScreen.enabled = true;
+        }
         selectRecipientScreen.enabled = false;
         recipient = "Frank Doe";
     }
