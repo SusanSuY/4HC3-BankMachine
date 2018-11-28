@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NavigationScript : MonoBehaviour
 {
+    public TextMeshProUGUI printReceiptTitleText;
+
     public Canvas startMenu;
     public Canvas pinScreen;
     public Canvas mainScreen;
@@ -51,6 +54,7 @@ public class NavigationScript : MonoBehaviour
     // 0 = withdraw, 1 = deposit, 2 = check balance, 3 = b/w acc transfer,
     // 4 = eTransfer pay, 5 = pay bills, 6 = eTransfer request
     public int functionMode = -1;
+    public int printMode;
 
     //deposit screen
     public Button depositBack;
@@ -210,8 +214,8 @@ public class NavigationScript : MonoBehaviour
         transferNo.onClick.AddListener(taskTransferNo);
 
         //receipt screen
-        receiptPrint.onClick.AddListener(taskReceiptPrint);
-        receiptEmail.onClick.AddListener(taskReceiptPrint);
+        receiptPrint.onClick.AddListener(taskReceiptPrintPaper);
+        receiptEmail.onClick.AddListener(taskReceiptPrintEmail);
         receiptMainMenu.onClick.AddListener(taskReceiptMainMenu);
 
         //transfer select screen
@@ -476,12 +480,17 @@ public class NavigationScript : MonoBehaviour
         }
         ClearAllValues();
     }
+
     //if checkmark is clicked
     void taskTransferCheck()
     {
+        Accounts accounts = GameObject.Find("EventSystem").GetComponent<Accounts>();
 
-        transferVerificationScreen.enabled = true;
-        transferScreen.enabled = false;
+        if (accounts.ValidateAmount())
+        {
+            transferVerificationScreen.enabled = true;
+            transferScreen.enabled = false;
+        }
     }
 
     //transfer verification menu
@@ -503,8 +512,19 @@ public class NavigationScript : MonoBehaviour
 
     //receipt menu
     //print receipt
-    void taskReceiptPrint()
+    void taskReceiptPrintPaper()
     {
+        printMode = 0;
+        UpdatePrintReceiptText();
+        receiptScreen.enabled = false;
+        printReceipt.enabled = true;
+        StartCoroutine(goBackToMenu());
+    }
+
+    void taskReceiptPrintEmail()
+    {
+        printMode = 1;
+        UpdatePrintReceiptText();
         receiptScreen.enabled = false;
         printReceipt.enabled = true;
         StartCoroutine(goBackToMenu());
@@ -726,5 +746,21 @@ public class NavigationScript : MonoBehaviour
         startMenu.GetComponent<PinControl>().ClearAllValues();
         transferMoneyScreen.GetComponent<PinControl>().ClearAllValues();
         transferScreen.GetComponent<PinControl>().ClearAllValues();
+    }
+
+    public void UpdatePrintReceiptText()
+    {
+        // Paper
+        if (printMode == 0)
+        {
+            Debug.Log("paper receipt");
+            printReceiptTitleText.SetText("Printing Paper Receipt");
+        }
+        // E-mail
+        else if (printMode == 1)
+        {
+            Debug.Log("e-mail receipt");
+            printReceiptTitleText.SetText("Sending E-mail Receipt");
+        }
     }
 }

@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class Accounts : MonoBehaviour
 {
+    // Error message screen
+    public Canvas errorScreen;
+
     // "Current Balance" texts
     public TextMeshProUGUI accountSummaryText;
     public TextMeshProUGUI checkBalanceCurrentBalanceText;
@@ -131,6 +134,11 @@ public class Accounts : MonoBehaviour
     {
         verificationAmount = amount;
 
+        if (!ValidateAmount())
+        {
+            return;
+        }
+
         switch (navigation.functionMode)
         {
             // withdraw
@@ -190,6 +198,49 @@ public class Accounts : MonoBehaviour
                 verificationTitle2Text.SetText("from " + selectedRecipient.GetName() + "?");
                 break;
         }
+    }
+
+    // Throws error message if user is requesting to use an amount more than the account balance
+    public bool ValidateAmount()
+    {
+        bool success = true;
+        ErrorMessageControl errorMessage = errorScreen.GetComponent<ErrorMessageControl>();
+
+        switch (navigation.functionMode)
+        {
+            // withdraw
+            case 0:
+                if (verificationAmount > selectedAccount.GetBalance())
+                {
+                    errorMessage.errorPopup.SetText("The balance of " +
+                        selectedAccount.GetName() + " is too low to withdraw " + ToMoneyFormat(verificationAmount) + ".");
+                    success = false;
+                }
+                break;
+            // Transfers
+            case 3:
+            case 4:
+            case 5:
+                if (verificationAmount > selectedAccount.GetBalance())
+                {
+                    errorMessage.errorPopup.SetText("The balance of " +
+                        selectedAccount.GetName() + " is too low to transfer " + ToMoneyFormat(verificationAmount) + ".");
+                    success = false;
+                }
+                break;
+        }
+
+        if (!success)
+        {
+            if (!errorScreen.enabled)
+            {
+                errorScreen.enabled = true;
+            }
+        }
+
+        Debug.Log("ValidateAmount() called; success = " + success);
+
+        return success;
     }
 
     public void UpdateBalance()

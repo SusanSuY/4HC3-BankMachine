@@ -16,7 +16,7 @@ public class ErrorMessageControl : MonoBehaviour {
 	void Start () {
         //set opacity of background to "darken" out other features
         Color temp = background.color;
-        temp.a = 0.7f;
+        temp.a = 0.8f;
         background.color = temp;
         errorPopup.SetText("Error: " + errorMessage);
 
