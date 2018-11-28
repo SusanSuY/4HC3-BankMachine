@@ -136,7 +136,31 @@ public class Accounts : MonoBehaviour
 
     public void UpdateValidationScreenText(float amount)
     {
+        Debug.Log("UpdateValidationScreenText() called with amount = " + amount);
         verificationAmount = amount;
+
+        // set selectedAccount
+        switch (navigation.functionMode)
+        {
+            case 3:
+                string fromAccount = fromDropdownTransfer.options[fromDropdownTransfer.value].text;
+                string toAccountStr = toDropdownTransfer.options[toDropdownTransfer.value].text;
+                fromAccount = fromAccount.Split('|')[0];
+                fromAccount = fromAccount.Substring(0, fromAccount.Length - 1);
+                toAccountStr = toAccountStr.Split('|')[0];
+                toAccountStr = toAccountStr.Substring(0, toAccountStr.Length - 1);
+                selectedAccount = GetAccountFromName(fromAccount);
+                toAccount = GetAccountFromName(toAccountStr);
+                Debug.Log("fromAccount = " + fromAccount + ", toAccount = " + toAccountStr);
+                break;
+            case 5:
+                string fromAccount2 = fromDropdownTransfer.options[fromDropdownTransfer.value].text;
+                fromAccount2 = fromAccount2.Split('|')[0];
+                fromAccount2 = fromAccount2.Substring(0, fromAccount2.Length - 1);
+                selectedAccount = GetAccountFromName(fromAccount2);
+                break;
+
+        }
 
         if (!ValidateAmount())
         {
@@ -173,7 +197,6 @@ public class Accounts : MonoBehaviour
                 toAccountStr = toAccountStr.Substring(0, toAccountStr.Length - 1);
                 verificationTitle2Text.SetText("from " + fromAccount + " to " + toAccountStr + "?");
                 verificationAmountText.SetText(ToMoneyFormat(verificationAmount));
-                Debug.Log("fromAccount = " + fromAccount + ", toAccount = " + toAccountStr);
                 selectedAccount = GetAccountFromName(fromAccount);
                 toAccount = GetAccountFromName(toAccountStr);
                 break;

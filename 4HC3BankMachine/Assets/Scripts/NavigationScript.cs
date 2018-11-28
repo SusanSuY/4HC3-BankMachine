@@ -609,13 +609,19 @@ public class NavigationScript : MonoBehaviour
     {
         transferMoneyScreen.enabled = false;
         transferSelectScreen.enabled = true;
+        ClearAllValues();
     }
 
     //transfer money menu confirm
     void taskTransferMoneyCheck()
     {
-        transferMoneyScreen.enabled = false;
-        transferVerificationScreen.enabled = true;
+        Accounts accounts = GameObject.Find("EventSystem").GetComponent<Accounts>();
+
+        if (accounts.ValidateAmount())
+        {
+            transferMoneyScreen.enabled = false;
+            transferVerificationScreen.enabled = true;
+        }
     }
 
     void taskCheckBalanceBack()
